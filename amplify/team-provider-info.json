@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pointofsale-dev-200418-authRole",
+      "UnauthRoleArn": "arn:aws:iam::579716187478:role/amplify-pointofsale-dev-200418-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::579716187478:role/amplify-pointofsale-dev-200418-authRole",
+      "Region": "sa-east-1",
+      "DeploymentBucketName": "amplify-pointofsale-dev-200418-deployment",
+      "UnauthRoleName": "amplify-pointofsale-dev-200418-unauthRole",
+      "StackName": "amplify-pointofsale-dev-200418",
+      "StackId": "arn:aws:cloudformation:sa-east-1:579716187478:stack/amplify-pointofsale-dev-200418/56c701e0-e7ab-11ed-ad5c-068fe0baf204",
+      "AmplifyAppId": "d3maftfgkukup8"
+    }
+  }
+}

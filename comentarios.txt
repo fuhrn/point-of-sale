@@ -1,0 +1,15 @@
+usamos la libreria UI native-base. NativeBase utiliza los componentes de 
+React Native
+
+Install dependencies para un existing project
+  npm install native-base
+  npx expo install react-native-svg@12.1.1
+  npx expo install react-native-safe-area-context@3.3.2
+
+Install lodash
+
+Modifique schema.graphql --> desde la terminal: "amplify codegen models"
+
+
+NOTAS: en NativeBase ya no hay mas Left, Right etc... https://www.youtube.com/watch?v=dKukFR3ksWk
+
