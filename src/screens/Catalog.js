@@ -12,8 +12,9 @@ import {
   // Right,
   // Body,
 } from "native-base";
+import "@azure/core-asynciterator-polyfill";
 import { DataStore } from "@aws-amplify/datastore";
-// import { Product } from "../../models";
+import { Product } from "../models";
 import { addLineItem } from "../context/actions";
 import { useOrder, useOrderDispatch } from "../context/orderContext";
 
@@ -23,14 +24,26 @@ function Catalog(props) {
   const order = useOrder();
   const dispatch = useOrderDispatch();
 
-  // useEffect(() => {
-  //     fetchProducts();
-  // }, []);
+  useEffect(() => {
+      fetchProducts();
+  }, []);
 
-  // async function fetchProducts() {
-  //     const data = await DataStore.query(Product);
-  //     setProducts(data);
-  // };
+  let dataStoreProducts = ["prueba"]
+
+  async function fetchProducts() {
+    try {
+      dataStoreProducts = await DataStore.query(Product);
+      setProducts(dataStoreProducts[0])
+      console.log(
+        "Products retrieved successfully!",
+        JSON.stringify(dataStoreProducts, null, 2)
+      );
+    } catch (error) {
+      console.log("Error retrieving products", error);
+    }
+  };
+
+  // console.log("Products: ", products[0]);
 
   // function checkoutBtnHandler() {
   //     return props.navigation.push('Checkout');

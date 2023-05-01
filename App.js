@@ -11,6 +11,7 @@ DataStore.configure({
 });
 
 import Catalog from "./src/screens/Catalog";
+import Settings from "./src/screens/Settings";
 
 Amplify.configure(awsExports);
 
@@ -22,6 +23,7 @@ export default function App() {
           <Text>Open up App.js to start working on your app!</Text>
           <StatusBar style="auto" />
           <Catalog />
+          <Settings />
         </View>
       </NativeBaseProvider>
     </OrderProvider>
