@@ -4,6 +4,7 @@ import {
   Text,
   Container,
   Box,
+  Flex,
   Heading,
   HStack,
   VStack,
@@ -22,7 +23,7 @@ import { Product } from "../models";
 import { addLineItem } from "../context/actions";
 import { useOrder, useOrderDispatch } from "../context/orderContext";
 
-function Catalog(props) {
+function Catalog({navigation}) {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const order = useOrder();
@@ -48,7 +49,7 @@ function Catalog(props) {
   }
 
   function checkoutBtnHandler() {
-      // return props.navigation.push('Checkout');
+      return navigation.navigate('Checkout');
   }
 
   function addProductHandler(product) {
@@ -56,7 +57,7 @@ function Catalog(props) {
   }
 
   const ProductItem = ({ item }) => (
-    <HStack space={[2, 2]} justifyContent="space-between">
+    <HStack space={[4, 2]} justifyContent="space-between" alignItems="center" margin={1}>
       <Image source={{ uri: item.image }} alt="Alternate Text" size="sm" />
       <Text>{item.name}</Text>
       <Text>{item.price}</Text>
@@ -66,35 +67,23 @@ function Catalog(props) {
       </Button>
     </HStack>
 
-    // <VStack justifyContent="space-between" key={product.id}>
-    //   <Text>
-    //     <Image square source={{ uri: product.image }} />
-    //   </Text>
-    //     <Text>{product.name}</Text>
-    //     <Text note numberOfLines={1}>
-    //       ${product.price}
-    //     </Text>
-    //   <Text>
-    //     <Button success onPress={() => addProductHandler(product)}>
-    //       <Text>Add</Text>
-    //     </Button>
-    //   </Text>
-    // </VStack>
   );
 
   return (
-    <Container>
+    <Container alignSelf="center">
       <Box>
         <Button
-          block
-          info
+          // block
+          // info
           style={styles.checkoutBtn}
           onPress={checkoutBtnHandler}
         >
-          <Text style={styles.quantityText}>{order.totalQty}</Text>
-          <Text style={styles.subtotalTxt}>
-             ${order.subtotal.toFixed(2)}
-          </Text>
+          <HStack space={6} >
+            <Text style={styles.quantityText}>Items: {order.totalQty}</Text>
+            <Text style={styles.subtotalTxt}>
+              Subtotal ${order.subtotal.toFixed(2)}
+            </Text>
+          </HStack>
         </Button>
 
         <FlatList
@@ -116,14 +105,15 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "tomato",
   },
-  subtotalTxt: {
-    fontSize: 20,
-    width: "70%",
-  },
   quantityText: {
-    width: "30%",
-    textAlign: "center",
-    paddingLeft: 10,
-    fontSize: 20,
+    // width: "30%",
+    // textAlign: "center",
+    // paddingLeft: 10,
+    fontSize: 18,
+    // marginRight:30,
   },
+  subtotalTxt: {
+    fontSize: 18,
+    // width: "70%",
+  }
 });

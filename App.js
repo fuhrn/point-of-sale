@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NativeBaseProvider, Box } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { Amplify } from "aws-amplify";
 import awsExports from "./src/aws-exports";
@@ -20,6 +21,35 @@ import Receipt from "./src/screens/Receipt";
 import Settings from "./src/screens/Settings";
 
 Amplify.configure(awsExports);
+
+const CheckoutStack = createStackNavigator();
+const CheckoutScreen = () => {
+  return (
+    <CheckoutStack.Navigator>
+      <CheckoutStack.Screen name="Catalog" component={Catalog} />
+      <CheckoutStack.Screen name="Checkout" component={Checkout} />
+    </CheckoutStack.Navigator>
+  );
+};
+
+const OrdersStack = createStackNavigator();
+const OrdersScreen = () => {
+  return (
+    <OrdersStack.Navigator>
+      <OrdersStack.Screen name="Orders" component={Orders} />
+      <OrdersStack.Screen name="Receipt" component={Receipt} />
+    </OrdersStack.Navigator>
+  );
+};
+
+const SettingsStack = createStackNavigator();
+const SettingsScreen = () => {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="Settings" component={Settings} />
+    </SettingsStack.Navigator>
+  );
+};
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -46,9 +76,9 @@ export default function App() {
               },
             })}
           >
-            <Tab.Screen name="Checkout" component={Checkout} />
-            <Tab.Screen name="Orders" component={Orders} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen name="Checkout" component={CheckoutScreen} />
+            <Tab.Screen name="Orders" component={OrdersScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
           </Tab.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
