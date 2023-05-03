@@ -26,7 +26,11 @@ const CheckoutStack = createStackNavigator();
 const CheckoutScreen = () => {
   return (
     <CheckoutStack.Navigator>
-      <CheckoutStack.Screen name="Catalog" component={Catalog} />
+      <CheckoutStack.Screen
+        name="Catalog"
+        component={Catalog}
+        options={{ title: "Point of Sale" }}
+      />
       <CheckoutStack.Screen name="Checkout" component={Checkout} />
     </CheckoutStack.Navigator>
   );
@@ -60,6 +64,7 @@ export default function App() {
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarActiveTintColor: "tomato",
+              headerShown: false,
               tabBarInactiveTintColor: "gray",
               tabBarIcon: ({ color, size }) => {
                 if (route.name === "Checkout") {

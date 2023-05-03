@@ -4,6 +4,7 @@ import {
   Text,
   Container,
   Box,
+  Divider,
   Flex,
   Heading,
   HStack,
@@ -57,16 +58,33 @@ function Catalog({navigation}) {
   }
 
   const ProductItem = ({ item }) => (
-    <HStack space={[4, 2]} justifyContent="space-between" alignItems="center" margin={1}>
-      <Image source={{ uri: item.image }} alt="Alternate Text" size="sm" />
-      <Text>{item.name}</Text>
-      <Text>{item.price}</Text>
+    <Box>
+      <HStack
+        space={[4, 2]}
+        justifyContent="space-between"
+        alignItems="center"
+        width="95%"
+      >
+        <Image source={{ uri: item.image }} alt="Alternate Text" size="sm" />
+        <VStack style={{ flex: 1 }}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text>$ {item.price}</Text>
+        </VStack>
 
-      <Button success onPress={() => addProductHandler(item)}>
-        <Text>Add</Text>
-      </Button>
-    </HStack>
-
+        <Button success onPress={() => addProductHandler(item)}>
+          <Text>Add</Text>
+        </Button>
+      </HStack>
+      <Divider
+        my="2"
+        _light={{
+          bg: "muted.300",
+        }}
+        _dark={{
+          bg: "muted.50",
+        }}
+      />
+    </Box>
   );
 
   return (
@@ -105,6 +123,12 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "tomato",
   },
+  itemName: {
+    fontSize: 16,
+  },
+  itemPrice: {
+    fontSize: 12,
+  },
   quantityText: {
     // width: "30%",
     // textAlign: "center",
@@ -115,5 +139,5 @@ const styles = StyleSheet.create({
   subtotalTxt: {
     fontSize: 18,
     // width: "70%",
-  }
+  },
 });
