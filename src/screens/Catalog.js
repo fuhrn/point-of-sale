@@ -34,7 +34,7 @@ function Catalog({navigation}) {
     fetchProducts();
   }, []);
 
-  let dataStoreProducts = ["prueba"];
+  let dataStoreProducts = [];
 
   async function fetchProducts() {
     try {
