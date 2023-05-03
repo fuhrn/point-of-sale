@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { RefreshControl, StyleSheet } from "react-native";
 import {
   Text,
-  // Container,
+  Container,
+  Box,
+  Heading,
+  HStack,
+  VStack,
   // Content,
-  // Button,
-  // List,
+  Button,
+  FlatList,
   // ListItem,
-  // Thumbnail,
+  Image,
   // Left,
   // Right,
   // Body,
@@ -25,69 +29,80 @@ function Catalog(props) {
   const dispatch = useOrderDispatch();
 
   useEffect(() => {
-      fetchProducts();
+    fetchProducts();
   }, []);
 
-  let dataStoreProducts = ["prueba"]
+  let dataStoreProducts = ["prueba"];
 
   async function fetchProducts() {
     try {
       dataStoreProducts = await DataStore.query(Product);
-      setProducts(dataStoreProducts[0])
+      setProducts(dataStoreProducts);
       console.log(
-        "Products retrieved successfully!",
-        JSON.stringify(dataStoreProducts, null, 2)
+        "Products retrieved successfully!"
+        // JSON.stringify(dataStoreProducts, null, 2)
       );
     } catch (error) {
       console.log("Error retrieving products", error);
     }
-  };
+  }
 
-  // console.log("Products: ", products[0]);
+  function checkoutBtnHandler() {
+      // return props.navigation.push('Checkout');
+  }
 
-  // function checkoutBtnHandler() {
-  //     return props.navigation.push('Checkout');
-  // }
+  function addProductHandler(product) {
+    dispatch(addLineItem(product));
+  }
 
-  // function addProductHandler(product) {
-  //     dispatch(addLineItem(product));
-  // }
+  const ProductItem = ({ item }) => (
+    <HStack space={[2, 2]} justifyContent="space-between">
+      <Image source={{ uri: item.image }} alt="Alternate Text" size="sm" />
+      <Text>{item.name}</Text>
+      <Text>{item.price}</Text>
 
-  // const productList = products.map(product => (
-  //     <ListItem thumbnail key={product.id}>
-  //         <Left>
-  //             <Thumbnail square source={{ uri: product.image }} />
-  //         </Left>
-  //         <Body>
-  //             <Text>{product.name}</Text>
-  //             <Text note numberOfLines={1}>${product.price}</Text>
-  //         </Body>
-  //         <Right>
-  //             <Button onPress={() => addProductHandler(product)}>
-  //                 <Text>Add</Text>
-  //             </Button>
-  //         </Right>
-  //     </ListItem>
-  // ));
+      <Button success onPress={() => addProductHandler(item)}>
+        <Text>Add</Text>
+      </Button>
+    </HStack>
+
+    // <VStack justifyContent="space-between" key={product.id}>
+    //   <Text>
+    //     <Image square source={{ uri: product.image }} />
+    //   </Text>
+    //     <Text>{product.name}</Text>
+    //     <Text note numberOfLines={1}>
+    //       ${product.price}
+    //     </Text>
+    //   <Text>
+    //     <Button success onPress={() => addProductHandler(product)}>
+    //       <Text>Add</Text>
+    //     </Button>
+    //   </Text>
+    // </VStack>
+  );
 
   return (
-    <Text>Catalog</Text>
-    // <Container>
-    //     <Content refreshControl={
-    //         <RefreshControl
-    //             onRefresh={fetchProducts}
-    //             refreshing={loading}
-    //         />
-    //     }>
-    //         <Button block info style={styles.checkoutBtn} onPress={checkoutBtnHandler}>
-    //             <Text style={styles.quantityText}>{order.totalQty}</Text>
-    //             <Text style={styles.subtotalTxt}>Subtotal ${order.subtotal.toFixed(2)}</Text>
-    //         </Button>
-    //         <List>
-    //             {productList}
-    //         </List>
-    //     </Content>
-    // </Container>
+    <Container>
+      <Box>
+        <Button
+          block
+          info
+          style={styles.checkoutBtn}
+          onPress={checkoutBtnHandler}
+        >
+          <Text style={styles.quantityText}>{order.totalQty}</Text>
+          <Text style={styles.subtotalTxt}>
+             ${order.subtotal.toFixed(2)}
+          </Text>
+        </Button>
+
+        <FlatList
+          data={products}
+          renderItem={({ item }) => <ProductItem item={item} />}
+        />
+      </Box>
+    </Container>
   );
 }
 

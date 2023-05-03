@@ -33,7 +33,6 @@ export const lineItemsReducer = (state = [], action) => {
           },
         ];
       }
-
       const newQty = lineItem.qty + 1;
       return [
         ...otherLines,
