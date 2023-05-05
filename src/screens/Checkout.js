@@ -48,23 +48,6 @@ const Checkout = () => {
     // console.log("new order: ", newOrder);
 
     const promises = order.lineItems.map((line) => {
-      // console.log("line item qty: ", line.qty);
-      // console.log("line item description: ", line.description);
-      // console.log("line item price: ", line.price);
-      // console.log("line item total: ", line.total);
-      // console.log("line item order: ", newOrder);
-      // console.log("line item qty: ", line.product);
-      // let item = DataStore.save(
-      //   new LineItem({
-      //     qty: line.qty,
-      //     description: line.description,
-      //     price: line.price,
-      //     total: line.total,
-      //     order: newOrder, // associate to order
-      //     product: line.product, // associate to product
-      //   })
-      // );
-      // console.log("item: ", item)
       return DataStore.save(
         new LineItem({
           qty: line.qty,
@@ -78,7 +61,7 @@ const Checkout = () => {
     });
 
     await Promise.all(promises);
-    console.log("Order: ", order);
+    // console.log("Order: ", order);
   }
 
   async function checkoutBtnHandler() {

@@ -1,12 +1,53 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { RefreshControl, ScrollView } from "react-native";
+import { Container, Content } from "native-base";
+import { DataStore } from "@aws-amplify/datastore";
+import OrderList from "./OrderList";
+import { Order, LineItem } from "../models";
 
-const Orders = () => {
+const Orders = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    refetch();
+    const subscription = DataStore.observe(Order).subscribe((msg) => refetch());
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function refetch() {
+    const data = await DataStore.query(Order);
+    const sortedOrders = data.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setOrders(sortedOrders);
+  }
+
+  async function openReceipt(orderId) {
+    const order = await DataStore.query(Order, orderId);
+    const allItems = await DataStore.query(LineItem);
+    const lineItems = allItems.filter(
+      (li) => li.order && li.order.id === order.id
+    );
+    return props.navigation.push("Receipt", {
+      order: {
+        ...order,
+        lineItems,
+      },
+    });
+  }
+
   return (
-    <View>
-      <Text>Orders</Text>
-    </View>
-  )
-}
+    <Container alignSelf="center" py={20}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl onRefresh={refetch} refreshing={loading} />
+        }
+      >
+        <OrderList orders={orders} onSelectOrder={openReceipt}/>
+      </ScrollView>
+    </Container>
+  );
+};
 
-export default Orders
+export default Orders;
